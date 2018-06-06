@@ -28,4 +28,14 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+    
+    
+     public function roles()
+    {
+        return $this->belongsToMany('App\Role')->wherePivot('user_id', 1)->as('subscription')->withTimestamps();
+    }
+    
+    
+   
+
 }

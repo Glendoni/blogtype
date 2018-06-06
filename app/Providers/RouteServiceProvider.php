@@ -26,6 +26,8 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+        
+       // $router->filter('challenge_general_permission', function($route){});
     }
 
     /**

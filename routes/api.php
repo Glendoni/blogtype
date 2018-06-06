@@ -19,7 +19,14 @@ use Illuminate\Http\Request;
 
 Route::post('login', 'API\PassportController@login');
 Route::post('register', 'API\PassportController@register');
+ 
+Route::get('foo', ['middleware' => 'auth:api',function(){
+    return json_encode(array('fame' =>'Hello World'));
+}]);
 
+ 
 Route::group(['middleware' => 'auth:api'], function() {
-    Route::post('get-details', 'API\PassportController@getDetails');
+    Route::get('get-details', 'API\PassportController@getDetails');
+    Route::get('get-roles/{id}', 'API\PassportController@getRoles');
 });
+ 

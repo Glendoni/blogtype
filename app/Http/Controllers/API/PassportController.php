@@ -5,7 +5,12 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use App\Role;
+use App\Account;
+use App\Company;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\User as UserResource;
+use App\Http\Resources\UserCollection;
 use Validator;
 
 class PassportController extends Controller
@@ -18,15 +23,17 @@ class PassportController extends Controller
      * @return \Illuminate\Http\Response
      */
     
+    
+    
     public function login() {
         if(Auth::attempt(['email' => request('email'), 'password' => request('password')])) {
             $user = Auth::user();
             $success['token'] = $user->createToken('MyApp')->accessToken;
-            return response()->json(['success' => $success], $this->sucessStatus);
+            return response()->json($success, $this->sucessStatus);
         }
         else {
             return response()->json(['error' => 'Unauthorised'], 401);
-        }
+        }  
     }
     
     /*
@@ -61,8 +68,24 @@ class PassportController extends Controller
      * @return \Illumiante\Http\Response
      */
      public function getDetails() {
-         $user = Auth::user();
+         
+         //return new UserCollection(User::paginate());
+        // return new UserResource(User::find(1)); 
+       $user = Auth::user();
+         
+          return     $user::find($user->id)->roles()->orderBy('description')->withCount('role')->get();
+        // $user = Auth::user();
          return response()->json(['success' => $user], $this->sucessStatus);
      }
-            
+       
+     public function getRoles($role) {
+         
+      $account = Company::find($role)->account()->where('RelatedAccountId', $role)->get();     
+      return response()->json($account);
+         
+           $user = Auth::user();
+          //return     Company::find($role)->relatedAccount()->get();
+     return     $user::find($user->id)->roles()->orderBy('description')->withCount('role')->where('roles.id', $role)->get();
+     }
+    
 }

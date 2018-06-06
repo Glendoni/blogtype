@@ -1,5 +1,9 @@
 <?php
-
+ //header("Access-Control-Allow-Origin: http://localhost:8080");
+ 
+ //header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE'); 
+//header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token');
+ //header("Access-Control-Allow-Headers : 'Content-Type', 'Authorization'");
 /**
  * Laravel - A PHP Framework For Web Artisans
  *
